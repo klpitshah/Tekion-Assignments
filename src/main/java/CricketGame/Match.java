@@ -1,93 +1,118 @@
 package CricketGame;
 
-import Team.Team;
-
 public class Match {
-    protected String team1;
-    protected String team2;
-    Team T1;
-    Team T2;
+    Team team1;
+    Team team2;
 
     public Match(String t1, String t2){
-        team1 = t1;
-        team2 = t2;
-        T1 = new Team(t1);
-        T2 = new Team(t2);
+        team1 = new Team(t1);
+        team2 = new Team(t2);
+    }
+
+    public void changeStrike(Player striker, Player nonstriker){
+        Player temp = striker;
+        striker = nonstriker;
+        nonstriker = temp;
     }
 
     public String startMatchAndGetWinner(){
-        Team battingTeam = T1;
-        Team bowlingTeam = T2;
+        Team battingTeam = team1;
+        Team bowlingTeam = team2;
 
         // toss
         if(Math.random() > 0.5){
-            battingTeam = T2;
-            bowlingTeam = T1;
+            battingTeam = team2;
+            bowlingTeam = team1;
         }
 
-        //initialising constants
+
+        //initializing constants
 
         int TOTAL_BALLS = 300;
         int TOTAL_WICKETS = 10;
 
 
+
         int wickets_down = 0;
         int runs = 0;
+        Player striker = battingTeam.players.get(0);
+        Player nonstriker = battingTeam.players.get(1);
 
 
         String returnString = "";
 
-        System.out.println(battingTeam);
-        returnString += battingTeam + "<br>";
+
+        returnString += battingTeam.getName() + "<br>";
+        outerloop:
         for(int i=0; i<TOTAL_BALLS; i++){
-            int ball_result = (int)(8*Math.random());
+//            int ball_result = (int)(8*Math.random());
+            int ball_result = striker.getBiasedRandomResult();
             if(ball_result == 7){
                 wickets_down++;
-                System.out.println(runs + "/" + wickets_down);
                 returnString += runs + "/" + wickets_down + "<br>";
                 if(wickets_down == TOTAL_WICKETS){
-                    break;
+                    break outerloop;
                 }
+                striker = battingTeam.players.get(wickets_down+1);
             }
-            runs += ball_result;
+            else {
+                if(ball_result % 2 != 0 && ball_result!=5){
+                    changeStrike(striker, nonstriker);
+                }
+                runs += ball_result;
+            }
+            if(i%6 == 0){
+                changeStrike(striker, nonstriker);
+            }
         }
 
-        T1.set_final_score(runs, wickets_down);
-        int team1_score = runs;
-        System.out.println();
-        System.out.println();
-        returnString += "<br><br>" + bowlingTeam + "<br>";
-        System.out.println(bowlingTeam);
+        battingTeam.set_final_score(runs, wickets_down);
+        returnString += "<br><br>" + bowlingTeam.getName() + "<br>";
+
+
 
         wickets_down = 0;
         runs = 0;
+        striker = bowlingTeam.players.get(0);
+        nonstriker = bowlingTeam.players.get(1);
 
+        outerloop2:
         for(int i=0; i<TOTAL_BALLS; i++){
-            int ball_result = (int)(8*Math.random());
+//            int ball_result = (int)(8*Math.random());
+            int ball_result = striker.getBiasedRandomResult();
             if(ball_result == 7){
                 wickets_down++;
                 returnString += runs + "/" + wickets_down + "<br>";
-                System.out.println(runs + "/" + wickets_down);
                 if(wickets_down == TOTAL_WICKETS){
-                    break;
+                    break outerloop2;
                 }
+                striker = bowlingTeam.players.get(wickets_down+1);
             }
-            runs += ball_result;
-            if(runs > team1_score){
-                returnString += runs + "/" + wickets_down + "<br>";
-                System.out.println(runs + "/" + wickets_down);
+            else {
+                if(ball_result % 2 != 0 && ball_result!=5){
+                    changeStrike(striker, nonstriker);
+                }
+                runs += ball_result;
+            }
+
+            if(runs > battingTeam.score){
+                returnString += "------ <br>" +runs + "/" + wickets_down + " (won)<br>";
                 break;
             }
+
+            if(i%6 == 0){
+                changeStrike(striker, nonstriker);
+            }
         }
 
-        int team2_score = runs;
-        T2.set_final_score(runs, wickets_down);
+
+        team2.set_final_score(runs, wickets_down);
 
         Team winner;
-        if(team1_score > team2_score){
+        if(battingTeam.score > bowlingTeam.score){
             winner = battingTeam;
         }
-        else if(team2_score > team1_score){
+        else if(bowlingTeam.score > battingTeam.score){
             winner = bowlingTeam;
         }
         else{
