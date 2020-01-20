@@ -4,10 +4,10 @@ import CricketGame.Player;
 import java.util.ArrayList;
 
 public class Team {
-    String team_name;
-    int score = 0;
-    int wickets = 0;
-    ArrayList<Player> players;
+    private String team_name;
+    private int score = 0;
+    private int wickets = 0;
+    private ArrayList<Player> players;
 
     public Team(String name){
         team_name = name;
@@ -29,5 +29,13 @@ public class Team {
 
     public String getName(){
         return team_name;
+    }
+
+    public Player getPlayerAtIndex(int i){
+        return players.get(i);
+    }
+
+    public int getScore(){
+        return score;
     }
 }

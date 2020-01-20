@@ -35,8 +35,8 @@ public class Match {
 
         int wickets_down = 0;
         int runs = 0;
-        Player striker = battingTeam.players.get(0);
-        Player nonstriker = battingTeam.players.get(1);
+        Player striker = battingTeam.getPlayerAtIndex(0);
+        Player nonstriker = battingTeam.getPlayerAtIndex(1);
 
 
         String returnString = "";
@@ -53,7 +53,7 @@ public class Match {
                 if(wickets_down == TOTAL_WICKETS){
                     break outerloop;
                 }
-                striker = battingTeam.players.get(wickets_down+1);
+                striker = battingTeam.getPlayerAtIndex(wickets_down+1);
             }
             else {
                 if(ball_result % 2 != 0 && ball_result!=5){
@@ -73,8 +73,8 @@ public class Match {
 
         wickets_down = 0;
         runs = 0;
-        striker = bowlingTeam.players.get(0);
-        nonstriker = bowlingTeam.players.get(1);
+        striker = bowlingTeam.getPlayerAtIndex(0);
+        nonstriker = bowlingTeam.getPlayerAtIndex(1);
 
         outerloop2:
         for(int i=0; i<TOTAL_BALLS; i++){
@@ -86,7 +86,7 @@ public class Match {
                 if(wickets_down == TOTAL_WICKETS){
                     break outerloop2;
                 }
-                striker = bowlingTeam.players.get(wickets_down+1);
+                striker = bowlingTeam.getPlayerAtIndex(wickets_down+1);
             }
             else {
                 if(ball_result % 2 != 0 && ball_result!=5){
@@ -95,7 +95,7 @@ public class Match {
                 runs += ball_result;
             }
 
-            if(runs > battingTeam.score){
+            if(runs > battingTeam.getScore()){
                 returnString += "------ <br>" +runs + "/" + wickets_down + " (won)<br>";
                 break;
             }
@@ -109,10 +109,10 @@ public class Match {
         team2.set_final_score(runs, wickets_down);
 
         Team winner;
-        if(battingTeam.score > bowlingTeam.score){
+        if(battingTeam.getScore() > bowlingTeam.getScore()){
             winner = battingTeam;
         }
-        else if(bowlingTeam.score > battingTeam.score){
+        else if(bowlingTeam.getScore() > battingTeam.getScore()){
             winner = bowlingTeam;
         }
         else{

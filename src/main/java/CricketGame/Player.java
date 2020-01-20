@@ -1,9 +1,9 @@
 package CricketGame;
 
 public class Player {
-    String name;
+    private String name;
     //String expertise;
-    double probability_to_get_out;
+    private double probability_to_get_out;
 
     public Player(String n, double p){
         this.name = n;
