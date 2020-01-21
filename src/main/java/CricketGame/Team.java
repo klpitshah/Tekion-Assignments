@@ -17,7 +17,7 @@ public class Team {
         double [] out_probs = {0.015, 0.015, 0.025, 0.025, 0.05, 0.05, 0.1, 0.15, 0.2, 0.25, 0.25};
 
         for(int i=0; i<out_probs.length; i++){
-            Player temp = new Player("player"+i, out_probs[i]);
+            Player temp = new Player(team_name+i, out_probs[i]);
             players.add(temp);
         }
     }
@@ -38,4 +38,6 @@ public class Team {
     public int getScore(){
         return score;
     }
+
+    public int getWickets(){ return wickets;}
 }
