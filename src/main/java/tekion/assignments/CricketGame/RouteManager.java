@@ -12,8 +12,9 @@ public class RouteManager {
         return "Welcome to the homepage :)";
     }
 
-    @RequestMapping(value="/startMatch", method = RequestMethod.GET)
-    public String startMatchWithParams(@RequestParam("team1") String team1, @RequestParam("team2") String team2){
+    @GetMapping(value="/startMatch")
+    public Match startMatchWithParams(@RequestParam("team1") String team1, @RequestParam("team2") String team2){
         return new Match(team1, team2).startMatchAndGetWinner();
+//        return new Match();
     }
 }

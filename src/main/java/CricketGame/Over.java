@@ -3,6 +3,10 @@ package CricketGame;
 import java.util.ArrayList;
 
 public class Over {
+    public ArrayList getOver() {
+        return over;
+    }
+
     private ArrayList over;
 
     public Over(){

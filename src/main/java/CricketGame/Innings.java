@@ -1,18 +1,81 @@
 package CricketGame;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.ArrayList;
+
+
 public class Innings {
+
+    // Instance variables
+
     private int runs;
     private int wickets_down;
     private int total_balls_played;
+    @JsonIgnore
     private Player striker;
+    @JsonIgnore
     private Player nonstriker;
     private Team battingTeam;
     private Team bowlingTeam;
     private boolean chase;
     private int target;
+    @JsonIgnore
     private int TOTAL_BALLS;
+    @JsonIgnore
     private final int TOTAL_WICKETS = 10;
+    private ScoreCard sc;
+    private ArrayList FoW;
 
+
+
+    // Getter functions
+
+    public int getRuns() {
+        return runs;
+    }
+    public int getWickets_down() {
+        return wickets_down;
+    }
+    public int getTotal_balls_played() {
+        return total_balls_played;
+    }
+    public Player getStriker() {
+        return striker;
+    }
+    public Player getNonstriker() {
+        return nonstriker;
+    }
+    public Team getBattingTeam() {
+        return battingTeam;
+    }
+    public Team getBowlingTeam() {
+        return bowlingTeam;
+    }
+    public boolean isChase() {
+        return chase;
+    }
+    public int getTarget() {
+        return target;
+    }
+    public int getTOTAL_BALLS() {
+        return TOTAL_BALLS;
+    }
+    public int getTOTAL_WICKETS() {
+        return TOTAL_WICKETS;
+    }
+    public ArrayList getFoW() {
+        return FoW;
+    }
+    public ScoreCard getSc() {
+        return sc;
+    }
+
+
+
+
+    // Constructor/s
+
+    //(for first innings which will not have anything to chase)
     public Innings(Team bat, Team bowl, int total_balls){
         this.battingTeam = bat;
         this.bowlingTeam = bowl;
@@ -24,8 +87,10 @@ public class Innings {
         this.chase = false;
         this.target = Integer.MAX_VALUE;
         this.TOTAL_BALLS = total_balls;
+        this.sc = new ScoreCard();
+        this.FoW = new ArrayList<Integer>();
     }
-
+    // for second innings, which will have the score of first team to chase
     public Innings(Team bat, Team bowl, int total_balls, int tgt){
         this.battingTeam = bat;
         this.bowlingTeam = bowl;
@@ -37,8 +102,13 @@ public class Innings {
         this.chase = true;
         this.target = tgt;
         this.TOTAL_BALLS = total_balls;
+        this.sc = new ScoreCard();
+        this.FoW = new ArrayList<Integer>();
     }
 
+
+
+    // helper function which starts the match
     public String startInnings(){
         runs = 0;
         wickets_down = 0;
@@ -51,8 +121,7 @@ public class Innings {
         Over currentOver = new Over();
         Player bowler = bowlingTeam.getPlayerAtIndex(0); // temp initialization
         String returnString = "";
-//        returnString += battingTeam.getName() + "<br>";
-        returnString += "<h3><b>" + battingTeam.getName() +"</b></h3><br>";
+        returnString += "<h3><b>" + battingTeam.getTeam_name() +"</b></h3><br>";
 
 
         outerloop:
@@ -60,7 +129,6 @@ public class Innings {
             total_balls_played = i+1;
             if(i%6==0){
                 if(i != 0){
-//                    changeStrike(striker, nonstriker);
                     Player temp = striker;
                     striker = nonstriker;
                     nonstriker = temp;
@@ -72,11 +140,12 @@ public class Innings {
                 over_runs = 0;
                 over_wickets = 0;
             }
-            int ball_result = striker.getBiasedRandomResult();
+            int ball_result = striker.BiasedRandomResult();
             if(ball_result == 7){
                 wickets_down++;
                 over_wickets++;
                 returnString += runs + "/" + wickets_down + "<br>";
+                FoW.add(runs);
                 striker.gotOut();
                 if(wickets_down == TOTAL_WICKETS){
                     bowler.addOver(currentOver);
@@ -88,7 +157,6 @@ public class Innings {
             else {
                 striker.updateBattingScore(ball_result);
                 if(ball_result % 2 != 0 && ball_result!=5){
-//                    changeStrike(striker, nonstriker);
                     Player temp = striker;
                     striker = nonstriker;
                     nonstriker = temp;
@@ -104,17 +172,13 @@ public class Innings {
         }
 
         battingTeam.set_final_score(runs, wickets_down);
-//        return;
         return returnString;
     }
 
-    public void changeStrike(Player striker, Player nonstriker){
-        Player temp = striker;
-        striker = nonstriker;
-        nonstriker = temp;
-    }
 
-    public String getScoreCard(){
+
+    // helper function which calculates the scorecard and sets it, and returns an HTML formatted string
+    public String ScoreCard(){
         String myTable = "";
         myTable += "<h3><b>Batting (" + this.runs + "/" + this.wickets_down +")</b></h3>";
         myTable += "<table>";
@@ -127,11 +191,19 @@ public class Innings {
                 "<th>Stirke Rate</th>" +
                 "</tr>";
 
+
+
         for(int i=0; i<battingTeam.getWickets()+2 && i<11; i++){
             Player currentPlayer = battingTeam.getPlayerAtIndex(i);
+            sc.addBattingStats(new BattingStats(currentPlayer.NameForScoreCard(),
+                    currentPlayer.getBat_total_runs(),
+                    currentPlayer.getBat_total_balls_played(),
+                    currentPlayer.getBat_fours(),
+                    currentPlayer.getBat_sixes(),
+                    currentPlayer.Strike_Rate()));
             myTable += "<tr>" +
                     "<td>" +
-                    currentPlayer.getNameForScoreCard() +
+                    currentPlayer.NameForScoreCard() +
                     "</td>" +
                     "<td>" +
                     currentPlayer.getBat_total_runs() +
@@ -146,7 +218,7 @@ public class Innings {
                     currentPlayer.getBat_sixes() +
                     "</td>" +
                     "<td>" +
-                    currentPlayer.getStrike_Rate() +
+                    currentPlayer.Strike_Rate() +
                     "</td>" +
                     "</tr>";
         }
@@ -166,7 +238,12 @@ public class Innings {
 
         for(int i=11-5; i<11; i++){
             Player currentPlayer = bowlingTeam.getPlayerAtIndex(i);
-            System.out.println(currentPlayer.getName());
+            sc.addBowlingStats(new BowlingStats(currentPlayer.getName(),
+                    currentPlayer.getBowl_runs(),
+                    currentPlayer.getBowl_total_overs(),
+                    currentPlayer.getBowl_wickets(),
+                    currentPlayer.getBowl_maiden_overs(),
+                    currentPlayer.bowl_economy()));
             myTable += "<tr>" +
                     "<td>" +
                     currentPlayer.getName() +
@@ -184,7 +261,7 @@ public class Innings {
                     currentPlayer.getBowl_maiden_overs() +
                     "</td>" +
                     "<td>" +
-                    currentPlayer.get_bowl_economy() +
+                    currentPlayer.bowl_economy() +
                     "</td>" +
                     "</tr>";
         }
@@ -192,6 +269,5 @@ public class Innings {
         myTable += "</table>";
         return myTable;
     }
-
 
 }
