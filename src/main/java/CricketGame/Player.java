@@ -2,6 +2,7 @@ package CricketGame;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class Player {
@@ -35,7 +36,8 @@ public class Player {
     private BattingStats battingStats;
     @JsonIgnore
     private BowlingStats bowlingStats;
-
+    @JsonIgnore
+    private int [] helperArray = {0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,2,2,2,3,3,4,4,4,6};
 
 
 
@@ -111,6 +113,7 @@ public class Player {
         this.bowl_maiden_overs = 0;
         this.bowl_extra_balls = 0;
         this.bowl_overs = new ArrayList<Over>();
+        this.shuffle();
     }
 
 
@@ -119,11 +122,25 @@ public class Player {
 
     // biased outcome of the ball depending upon the probability of getting out of the player
     public int BiasedRandomResult(){
-        if(Math.random() < probability_to_get_out){
+        double random = Math.random();
+        if(random < probability_to_get_out){
             return 7;
         }
         else{
-            return (int) (8*Math.random());
+            return helperArray[(int) ((helperArray.length-1)*random)];
+        }
+    }
+    public void set_probabilities_from_ratings(){
+
+    }
+    private void shuffle(){
+        Random rand = new Random();
+
+        for (int i = 0; i < helperArray.length; i++) {
+            int randomIndexToSwap = rand.nextInt(helperArray.length);
+            int temp = helperArray[randomIndexToSwap];
+            helperArray[randomIndexToSwap] = helperArray[i];
+            helperArray[i] = temp;
         }
     }
     public void updateBattingScore(int runs){

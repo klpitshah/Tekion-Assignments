@@ -1,6 +1,7 @@
 package CricketGame;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 
 
@@ -15,8 +16,12 @@ public class Innings {
     private Player striker;
     @JsonIgnore
     private Player nonstriker;
+    @JsonIgnore
     private Team battingTeam;
+    @JsonIgnore
     private Team bowlingTeam;
+    private String battingTeamName;
+    private String bowlingTeamName;
     private boolean chase;
     private int target;
     @JsonIgnore
@@ -57,19 +62,18 @@ public class Innings {
     public int getTarget() {
         return target;
     }
-    public int getTOTAL_BALLS() {
-        return TOTAL_BALLS;
-    }
-    public int getTOTAL_WICKETS() {
-        return TOTAL_WICKETS;
-    }
     public ArrayList getFoW() {
         return FoW;
     }
     public ScoreCard getSc() {
         return sc;
     }
-
+    public String getBattingTeamName() {
+        return battingTeamName;
+    }
+    public String getBowlingTeamName() {
+        return bowlingTeamName;
+    }
 
 
 
@@ -79,6 +83,8 @@ public class Innings {
     public Innings(Team bat, Team bowl, int total_balls){
         this.battingTeam = bat;
         this.bowlingTeam = bowl;
+        this.battingTeamName = battingTeam.getTeam_name();
+        this.bowlingTeamName = bowlingTeam.getTeam_name();
         this.runs = 0;
         this.wickets_down = 0;
         this.total_balls_played = 0;
@@ -94,6 +100,8 @@ public class Innings {
     public Innings(Team bat, Team bowl, int total_balls, int tgt){
         this.battingTeam = bat;
         this.bowlingTeam = bowl;
+        this.battingTeamName = battingTeam.getTeam_name();
+        this.bowlingTeamName = bowlingTeam.getTeam_name();
         this.runs = 0;
         this.wickets_down = 0;
         this.total_balls_played = 0;

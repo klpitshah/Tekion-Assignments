@@ -37,10 +37,22 @@ public class Team {
         players = new ArrayList<>();
 
         //probability of getting out for each(11) player
-        double [] out_probs = {0.001, 0.001, 0.005, 0.005, 0.015, 0.015, 0.025, 0.15, 0.15, 0.25, 0.25};
 
-        for(int i=0; i<out_probs.length; i++){
-            Player temp = new Player(team_name+i, out_probs[i]);
+        // use a function to get the probabilty_to_get_out & probability_to_take_wickets of the batsman from his ratings
+        double [] probability_to_get_out = {0.02, 0.02, 0.025, 0.025, 0.03, 0.03, 0.04, 0.45, 0.45, 0.45, 0.5};
+        double [] prob_to_take_wickets = {0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.01, 0.15, 0.15, 0.15, 0.2};
+
+//        double [] temp = prob_to_take_wickets + probability_to_get_out;
+
+        for(int i=0; i<probability_to_get_out.length; i++){
+            Player temp;
+            if(i<6){
+                temp = new Batsman(team_name+i, probability_to_get_out[i]);
+            }
+            else{
+                temp = new Bowler(team_name+i, probability_to_get_out[i]);
+            }
+
             players.add(temp);
         }
     }
