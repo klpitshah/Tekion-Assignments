@@ -133,8 +133,9 @@ public class Innings {
                     striker = nonstriker;
                     nonstriker = temp;
                     bowler.updateBowlingScore(1, over_runs, over_wickets, over_runs==0, 0);
+                    bowler.addOver(currentOver);
+                    bowler.setBowlingStats();
                 }
-                bowler.addOver(currentOver);
                 currentOver = new Over();
                 bowler = bowlingTeam.getPlayerAtIndex(10 - (i/6)%total_bowler);
                 over_runs = 0;
@@ -147,9 +148,11 @@ public class Innings {
                 returnString += runs + "/" + wickets_down + "<br>";
                 FoW.add(runs);
                 striker.gotOut();
+                striker.setBattingStats();
                 if(wickets_down == TOTAL_WICKETS){
                     bowler.addOver(currentOver);
                     bowler.updateBowlingScore(0, over_runs, over_wickets, false, (i+1)%6);
+                    nonstriker.setBattingStats();
                     break outerloop;
                 }
                 striker = battingTeam.getPlayerAtIndex(wickets_down+1);
@@ -166,6 +169,8 @@ public class Innings {
             }
             currentOver.addBall(ball_result);
             if(chase && runs>target){
+                striker.setBattingStats();
+                nonstriker.setBattingStats();
                 returnString += "------ <br>" +runs + "/" + wickets_down + " (won)<br>";
                 break;
             }
@@ -195,6 +200,7 @@ public class Innings {
 
         for(int i=0; i<battingTeam.getWickets()+2 && i<11; i++){
             Player currentPlayer = battingTeam.getPlayerAtIndex(i);
+
             sc.addBattingStats(new BattingStats(currentPlayer.NameForScoreCard(),
                     currentPlayer.getBat_total_runs(),
                     currentPlayer.getBat_total_balls_played(),

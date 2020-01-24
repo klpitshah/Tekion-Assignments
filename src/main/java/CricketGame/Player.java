@@ -31,6 +31,12 @@ public class Player {
     private double probability_to_get_out;
     @JsonIgnore
     private ArrayList bowl_overs;
+    @JsonIgnore
+    private BattingStats battingStats;
+    @JsonIgnore
+    private BowlingStats bowlingStats;
+
+
 
 
 
@@ -63,6 +69,30 @@ public class Player {
         return this.bowl_runs/this.bowl_wickets;
     }
     public int getBowl_maiden_overs(){ return this.bowl_maiden_overs;}
+
+
+
+
+    //  setter
+    public void setBattingStats(){
+//        set this
+//        e int runs;
+//        private int balls;
+//        private int fours;
+//        private int sixes;
+//        private double strike_rate;
+        this.battingStats = new BattingStats(this.NameForScoreCard(), this.bat_total_runs, this.bat_total_balls_played,
+                this.bat_fours, this.bat_sixes, this.Strike_Rate());
+    }
+    public void setBowlingStats(){
+//        private int runs;
+//        private String totalOvers;
+//        private int wickets;
+//        private int maiden;
+//        private double economy;
+        this.bowlingStats = new BowlingStats(this.name, this.bowl_runs, this.getBowl_total_overs(), this.bowl_wickets,
+                this.bowl_maiden_overs, this.bowl_economy());
+    }
 
 
 

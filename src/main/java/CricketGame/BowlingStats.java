@@ -37,4 +37,9 @@ public class BowlingStats extends Stats {
         this.maiden = maiden;
         this.economy = economy;
     }
+
+
+//    public void updateBowlingStats(int r, int wickets, int maiden, double economy){
+//                      //setting overs is an issue as it is string
+//    }
 }
