@@ -13,10 +13,8 @@ public class Match {
     private Team winner;
 
 
-    //take team instances as arguments
+    //constructor
     public Match(){
-//        this.team1 = new Team(t1);
-//        this.team2 = new Team(t2);
     }
 
 
@@ -59,7 +57,6 @@ public class Match {
     public void setWinnerName(String winnerName) {
         this.winnerName = winnerName;
     }
-
 
     public void setTeam1(Team team1) {
         this.team1 = team1;

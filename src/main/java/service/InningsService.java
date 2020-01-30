@@ -60,9 +60,7 @@ public class InningsService implements InterInningsService {
                 overWickets++;
                 innings.addRunsToFoW(runs);
                 striker.setBatGotOut(true);
-//            striker.setBattingStats();
                 if (wicketsDown == TOTAL_WICKETS) {
-//                nonstriker.setBattingStats();
                     break outerloop;
                 }
                 striker = inningsRepo.getBattingTeam(innings.isChase()).getPlayerAtIndex(wicketsDown + 1);
@@ -76,17 +74,10 @@ public class InningsService implements InterInningsService {
                 runs += ballResult;
                 overRuns += ballResult;
             }
-//            currentOver.addBall(ballResult);
             if(innings.isChase() && runs>innings.getTarget()){
-//                striker.setBattingStats();
-//                nonstriker.setBattingStats();
                 break;
             }
         }
-
-//        innings.setRuns(runs);
-//        innings.setTotalBallsPlayed(totalBallsPlayed);
-//        innings.setWicketsDown(wicketsDown);
 
         if(!innings.isChase()){
             teamRepo.setBattingTeamScore(runs, wicketsDown);
@@ -95,16 +86,8 @@ public class InningsService implements InterInningsService {
             teamRepo.setBowlingTeamScore(runs, wicketsDown);
         }
 
-//        teamRepo.getBattingTeam().setScore(runs, wicketsDown);
-
-//        battingTeam.setFinalScore(runs, wicketsDown);
-//        return returnString;
         return;
     }
 
-//    @Override
-//    public String ScoreCard() {
-//        return null;
-//    }
 }
 

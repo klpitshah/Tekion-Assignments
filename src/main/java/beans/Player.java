@@ -1,8 +1,5 @@
 package beans;
 
-//import CricketGame.BattingStats;
-//import CricketGame.BowlingStats;
-//import CricketGame.Over;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Random;
@@ -34,12 +31,6 @@ public class Player {
     private int bowlMaidenOvers;
     @JsonIgnore
     private double probabilityToGetOut;
-//    @JsonIgnore
-//    private ArrayList bowlOvers;
-//    @JsonIgnore
-//    private BattingStats battingStats;
-//    @JsonIgnore
-//    private BowlingStats bowlingStats;
     @JsonIgnore
     private int [] helperArray = {0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,2,2,2,3,3,4,4,4,6};
 
@@ -58,7 +49,6 @@ public class Player {
         this.probabilityToGetOut = p;
         this.bowlMaidenOvers = 0;
         this.bowlExtraBalls = 0;
-//        this.bowlOvers = new ArrayList<Over>();
         this.shuffle();
     }
 
@@ -126,22 +116,9 @@ public class Player {
         return probabilityToGetOut;
     }
 
-//    public ArrayList getBowlOvers() {
-//        return bowlOvers;
-//    }
-
-//    public BattingStats getBattingStats() {
-//        return battingStats;
-//    }
-//
-//    public BowlingStats getBowlingStats() {
-//        return bowlingStats;
-//    }
-
     public int[] getHelperArray() {
         return helperArray;
     }
-
 
     public void setBatGotOut(boolean batGotOut) {
         this.batGotOut = batGotOut;

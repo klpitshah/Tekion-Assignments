@@ -34,7 +34,6 @@ public class MatchService implements InterMatchService {
         // assumed that toss winner will always choose to bat first
 
 
-//        teamRepo.initializeTeamsAndAddToDB(tossWinner, getOtherTeam(teamName1, teamName2, tossWinner));
         matchRepo.createMatch();
         teamRepo.createBattingTeam(tossWinner);
         teamRepo.createBowlingTeam(getOtherTeam(teamName1, teamName2, tossWinner));
@@ -46,8 +45,6 @@ public class MatchService implements InterMatchService {
         matchRepo.setTeam1(tossBattingTeam);
         matchRepo.setTeam2(tossBowlingTeam);
 
-//        matchRepo.setTeam1(teamRepo.getBattingTeam());
-//        matchRepo.setTeam2(teamRepo.getBowlingTeam());
 
         //initializing constants
 
@@ -81,8 +78,6 @@ public class MatchService implements InterMatchService {
 
         matchRepo.setMatchWinner(winner);
 
-        // returnString is a HTML formatted response
-
         return matchRepo.getMatch();
 
     }
@@ -102,65 +97,4 @@ public class MatchService implements InterMatchService {
             return b;
         }
     }
-
-//    @Override
-//    public Match startMatchAndGetWinner() {
-//        Team tossBattingTeam = team1;
-//        Team tossBowlingTeam = team2;
-//
-//        // toss
-//        if (Math.random() > 0.5) {
-//            tossBattingTeam = team2;
-//            tossBowlingTeam = team1;
-//        }
-//
-//
-//        //initializing constants
-//
-//        int TOTAL_BALLS = 300;
-//        int TOTAL_WICKETS = 10;
-//        String returnString = "";
-//
-//
-//
-//        returnString += "<h1><b>Fall of Wickets</b></h1>";
-//        firstInnings = new Innings(tossBattingTeam, tossBowlingTeam, TOTAL_BALLS);
-//        returnString += firstInnings.startInnings();
-//        returnString += "<br><br>";
-//
-//
-//        secondInnings = new Innings(tossBowlingTeam, tossBattingTeam, TOTAL_BALLS, tossBattingTeam.getScore());
-//        returnString += secondInnings.startInnings();;
-//        returnString += "<br><br>";
-//
-//
-////        Team winner;
-//        if(tossBattingTeam.getScore() > tossBowlingTeam.getScore()){
-//            winner = tossBattingTeam;
-//            winnerName = winner.getteamName();
-//            returnString += "<br><br>" + "<h1><b><i>" + winner.getteamName() +"</i>"+ " wins the match!" +"</b></h1>";
-//        }
-//        else if(tossBowlingTeam.getScore() > tossBattingTeam.getScore()){
-//            winner = tossBowlingTeam;
-//            winnerName = winner.getteamName();
-//            returnString += "<br><br>" + "<h1><b><i>" + winner.getteamName() +"</i>"+ " wins the match!" +"</b></h1>";
-//        }
-//        else{
-//            returnString += "<br><br><h1><b>Match is tied</b></h1>";
-//            winnerName = "Match Tied";
-//        }
-//
-//
-//
-//        returnString += "<br><h1><b>First Innings Stats</b></h1><br>";
-//        returnString += firstInnings.ScoreCard();
-//        returnString += "<br><br>";
-//        returnString += "<br><h1><b>Second Innings Stats</b></h1><br>";
-//        returnString += secondInnings.ScoreCard();
-//
-//        // returnString is a HTML formatted response
-//
-//        return this;
-//
-//    }
 }

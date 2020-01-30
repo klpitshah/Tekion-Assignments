@@ -43,8 +43,6 @@ public class MatchRepo {
         match.setWinnerName(team.getTeamName());
     }
 
-
-
     public Team getTeam1(){
         return match.getTeam1();
     }

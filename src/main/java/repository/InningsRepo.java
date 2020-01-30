@@ -3,7 +3,6 @@ package repository;
 import beans.Innings;
 import beans.Team;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 @Repository

@@ -1,7 +1,6 @@
 package repository;
 
 import beans.Team;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -27,11 +26,9 @@ public class TeamRepo {
 
     public void setBattingTeamScore(int r, int w){
         battingTeam.setScore(r, w);
-//        this.battingTeam.setScore(r, w);
     }
 
     public void setBowlingTeamScore(int r, int w){
         bowlingTeam.setScore(r, w);
-//        this.bowlingTeam.setScore(r, w);
     }
 }

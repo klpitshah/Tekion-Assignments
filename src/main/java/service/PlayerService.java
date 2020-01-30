@@ -18,12 +18,4 @@ public class PlayerService implements InterPlayerService{
             return helperArray[(int) ((helperArray.length-1)*random)];
         }
     }
-
-//    @Autowired
-//    private PlayerRepo repo;
-//
-//    Player palyer = new Player();
-//    int score =
-
-
 }
