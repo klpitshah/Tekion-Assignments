@@ -60,6 +60,9 @@ public class InningsService{
 
         return new int[]{runs, wicketsDown};
     }
-
+    private void printWinner(int teamNo) {
+        if(teamNo == 1) System.out.println("Team A is winner");
+        else System.out.println("Team B is winner");
+    }
 }
 
